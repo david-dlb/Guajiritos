@@ -1,0 +1,40 @@
+{
+  "tasks": [
+    {
+      "name": "dsd",
+      "description": "ds",
+      "state": "",
+      "user": "",
+      "id": 1
+    },
+    {
+      "name": "",
+      "description": "",
+      "state": "",
+      "user": "",
+      "id": 2
+    },
+    {
+      "name": "",
+      "description": "",
+      "state": "",
+      "user": "",
+      "id": 3
+    },
+    {
+      "name": "",
+      "description": "",
+      "state": "",
+      "user": "",
+      "id": 4
+    }
+  ],
+  "users": [
+    {
+      "email": "f@g.c",
+      "password": "$2a$10$stFiAyIj1v0r51MGKdFvHuw83mKwzcAdYaZEYDZGEz6FGj2yFGZ/G",
+      "name": "olivier",
+      "id": 1
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+
+
+
+<mat-card  [formGroup]="form" (ngSubmit)="submit()" class="login-card">
+  <mat-card-header>
+    <mat-card-title>Iniciar Sesión</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form class="login-form" (ngSubmit)="onLogin()">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Nombre</mat-label>
+        <input matInput placeholder="ejemplo@correo.com" formControlName="name">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" placeholder="Contraseña"   name="password" required>
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Ocultar contraseña'">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="full-width" type="submit">Ingresar</button>
+    </form>
+  </mat-card-content>
+</mat-card>

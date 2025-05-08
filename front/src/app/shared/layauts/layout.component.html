@@ -1,0 +1,45 @@
+<style>
+    .example-spacer {
+    flex: 1 1 auto;
+  }
+  .toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left-panel {
+  display: flex;
+  align-items: center;
+}
+
+.center-menu {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex: 1; /* Para que ocupe todo el espacio central */
+  justify-content: center;
+}
+ 
+</style>
+
+<mat-toolbar color="primary" class="toolbar">
+    <!-- Panel izquierdo -->
+    <div class="left-panel">
+      <mat-icon>dashboard</mat-icon>
+    </div>
+  
+    <!-- Menú centro -->
+    <div class="center-menu">
+        <a mat-button routerLink="./task">Tareas</a>
+        <a mat-button routerLink="./user">Usuarios</a>
+    </div>
+  
+    <!-- Salir a la derecha -->
+    <div class="right-logout">
+        <button mat-button color="warn" (click)="logout()">Salir</button>
+    </div>
+  </mat-toolbar>
+ 
+<router-outlet></router-outlet> 
+

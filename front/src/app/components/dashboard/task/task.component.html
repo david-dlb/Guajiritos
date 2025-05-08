@@ -1,0 +1,6 @@
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+    <h2>Tareas</h2>
+    <a mat-raised-button routerLink="/dashboard/task-form">Agregar</a>
+
+</div>
+<app-task-table [tasks]="tasks()"></app-task-table>
