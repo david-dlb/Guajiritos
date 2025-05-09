@@ -9,7 +9,7 @@ export default [
     component: TaskComponent,
   },
   {
-    path: "task-form", 
+    path: "task-form/:id", 
     component: TaskFormComponent,
   },
   {

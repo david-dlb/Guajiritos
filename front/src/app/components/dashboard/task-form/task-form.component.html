@@ -166,6 +166,25 @@ em {
 .div-flex{
     display: flex;
 }
+
+.small-field {
+  font-size: 14px; /* ajusta según la preferencia */
+}
+
+.small-field .mat-form-field-wrapper {
+  padding: 4px 0; /* reduce padding interno */
+}
+
+.small-field .mat-form-field-infix {
+  height: 24px; /* altura del input */
+  font-size: 14px;
+}
+/* .mat-mdc-form-field-infix{
+  padding: 10px !important;
+}
+.mat-mdc-text-field-wrapper{
+  height: 40px !important;
+} */
 </style>
 
 <mat-card class="login-card">
@@ -174,9 +193,8 @@ em {
     </mat-card-header>
     <mat-card-content>
       <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>Nombre</mat-label>
-          <input matInput formControlName="name">
+        <mat-form-field appearance="fill" class="full-width small-field">
+          <input matInput formControlName="description">
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="full-width">
@@ -184,10 +202,11 @@ em {
             <input matInput formControlName="description">
         </mat-form-field>
     
-        <mat-form-field [hideRequiredMarker]="hideRequired()" [floatLabel]="floatLabel()">
-            <mat-select required>
-            <mat-option>-- None --</mat-option>
-            <mat-option value="option">Option</mat-option>
+        <mat-form-field>
+            <mat-select required formControlName="user">
+              <mat-option>-- None --</mat-option>
+              <mat-option value="option">Option</mat-option>
+              <mat-option value="dsd">dsd</mat-option>
             </mat-select>
             <mat-label>Usuario</mat-label>
         </mat-form-field>
@@ -197,7 +216,7 @@ em {
               <label>Estado:</label>
             </div>
             <div class="input-column">
-              <mat-radio-group [formControl]="floatLabelControl" class="vertical-radio-group">
+              <mat-radio-group   formControlName="state" class="vertical-radio-group">
                 <mat-radio-button value="auto">Pendiente</mat-radio-button>
                 <mat-radio-button value="progress">En progreso</mat-radio-button>
                 <mat-radio-button value="always">Completada</mat-radio-button>

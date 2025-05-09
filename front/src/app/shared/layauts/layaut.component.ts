@@ -12,9 +12,6 @@ import {MatButtonModule} from '@angular/material/button';
 })
 export default class LayoutComponent {
     private _router = inject(Router)
-    constructor() {
-        console.log("hola")
-    }
     logout() {
 
     }
