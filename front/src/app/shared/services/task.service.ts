@@ -8,9 +8,10 @@ export interface Task {
     user: string
 }
 export interface TaskFilter {
-  query: string,
+  query: string
   type: string
   state: string
+  page: number
 }
 
 export type TaskCreate = Omit<Task, "id">
@@ -51,6 +52,7 @@ export class TaskService {
       }  
       return tasks
     }
+
     async getParams(options: TaskFilter): Promise<Task[]> {
       let tasks: Task[] = [] 
       let opt = ""
@@ -68,6 +70,9 @@ export class TaskService {
       }
       if (options.state) {
         opt+= `state=${options.state}&`
+      }
+      if (options.page) {
+        opt+= `_page=${options.page + 1}&_limit=10`
       }
       opt = opt.length > 0 ? `?${opt}` : ""
       try {

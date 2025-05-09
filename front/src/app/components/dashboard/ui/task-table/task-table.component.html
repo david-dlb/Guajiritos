@@ -27,18 +27,47 @@
   background-color: #ffabf3;
   color: black;
 }
+
+/* Estilo predeterminado: los elementos en fila */
+.div-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px; /* espacio entre elementos */
+}
+
+/* En pantallas pequeñas, apilamos y ocupan todo el ancho */
+/* Estilo original: fila en pantallas grandes */
+.div-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* En pantallas pequeñas, apilados en columna, centrados, con espacio a los lados */
+@media(max-width: 600px) {
+  .div-flex {
+    flex-direction: column; /* apilados verticalmente */
+    align-items: center; /* centrar horizontalmente */
+  }
+  /* los campos y botón ocupan 80% del espacio y centrados */
+  .div-flex mat-form-field,
+  .div-flex button {
+    width: 80%;
+    margin: 10px 0; /* espacio arriba y abajo */
+  }
+}
 </style>
 <div class=" ">
   <form [formGroup]="form" (ngSubmit)="search()"  class="mt1">
 
-    <div class="example-form-fields div-flex"> 
+    <div class="example-form-fields div-flex responsive-order"> 
 
-      <mat-form-field   class="mr">
+      <mat-form-field   class="mr resp-input">
         <mat-label>Buscar</mat-label>
         <input matInput formControlName="query"/>
       </mat-form-field>
 
-      <mat-form-field  class="mr">
+      <mat-form-field  class="mr resp-input">
         <mat-select required formControlName="type">
           <mat-option>-- None --</mat-option>
           <mat-option value="name">Nombre</mat-option>
@@ -47,7 +76,7 @@
         </mat-select>
         <mat-label>Tipo</mat-label>
       </mat-form-field>
-      <mat-form-field class="mr">
+      <mat-form-field class="mr resp-input">
         <mat-select required formControlName="state">
           <mat-option>-- None --</mat-option>
           <mat-option value="pendient">Pendiente</mat-option>
@@ -56,7 +85,7 @@
         </mat-select>
         <mat-label>Estado</mat-label>
       </mat-form-field>
-      <button mat-raised-button color="warn" class="mt" (click)="search()">Buscar</button>
+      <button mat-raised-button color="warn" class="mt resp-input" (click)="search()">Buscar</button>
     </div>
   </form>
 </div>
@@ -97,7 +126,7 @@
   </table>
 </div>
  
-
+<app-paginator (pageChange)="onPageChanged($event)"></app-paginator>
 <!-- Aquí puede estar tu contenido -->
 <!-- Botón circular en la esquina inferior derecha -->
 <button mat-fab class="fab-button" aria-label="Acción">
