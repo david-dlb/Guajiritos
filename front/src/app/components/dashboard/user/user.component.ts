@@ -69,7 +69,7 @@ displayedColumns: string[] = ['nombre', 'descripcion', 'estado', 'editar'];
 
 
   async ngOnInit() { 
-    this.users = await this.userService.get()
+    this.users = await this.userService.getFirst()
     this.loadUsers(this.users);
   }
 

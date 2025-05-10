@@ -95,6 +95,25 @@ export class TaskService {
     return tasks
   }
 
+  async getFirst(): Promise<Task[]> {
+    let tasks: Task[] = [] 
+    const token = localStorage.getItem('token');
+    if (!token) return [];
+    try {
+      const data = await fetch(`${urlProtected}/tasks?_page=1&_limit=10`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      })
+      tasks = await data.json()
+    } catch (error) {
+      console.log('Error:', error);
+    }  
+    return tasks
+  }
+
   async getById(id: string): Promise<Task[]> {
     let tasks: Task[] = [] 
     const token = localStorage.getItem('token');
@@ -118,8 +137,7 @@ export class TaskService {
     let tasks: Task[] = [] 
     let opt = ""
     const token = localStorage.getItem('token');
-    if (!token) return [];
-    console.log(options)
+    if (!token) return []; 
     if (options.query) {
       if (options.type == "name") {
         opt+= `name=${options.query}&`
@@ -134,10 +152,10 @@ export class TaskService {
     if (options.state) {
       opt+= `state=${options.state}&`
     }
-    if (options.page) {
+    if (options.page != null) {
       opt+= `_page=${options.page + 1}&_limit=10`
     }
-    opt = opt.length > 0 ? `?${opt}` : ""
+    opt = opt.length > 0 ? `?${opt}` : "" 
     try {
       const data = await fetch(`${urlProtected}/tasks${opt}`, {
         method: 'GET',

@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivateFn, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../shared/services/auth/auth.service';
 
 export const loggedGuard: CanActivateFn = async (
@@ -7,14 +7,7 @@ export const loggedGuard: CanActivateFn = async (
   state: RouterStateSnapshot
 ) => { 
   const service = inject(AuthService) 
-  const router = inject(Router);
-  const isAuthenticated = await service.isAuthenticated(); 
-  if (isAuthenticated) {
-    return true; // permite activar la ruta
-  } else {
-    // redirige a la ruta deseada, por ejemplo '/login' o '/not-authorized'
-    return router.createUrlTree(['']);
-  }
+  return await service.isAuthenticated();  
 }
 
 export const loginGuard: CanActivateFn = async (
@@ -22,15 +15,7 @@ export const loginGuard: CanActivateFn = async (
   state: RouterStateSnapshot
 ) => { 
   const service = inject(AuthService) 
-  const router = inject(Router);
-  const isAdmin = await service.isAdmin(); 
-  if (!isAdmin) {
-    return true; // permite activar la ruta
-  } else {
-    console.log("hoola")
-    // redirige a la ruta deseada, por ejemplo '/login' o '/not-authorized'
-    return router.createUrlTree(['/dashboard/task']);
-  }
+  return !(await service.isAuthenticated()) 
 }
 
 export const adminGuard: CanActivateFn = async (
@@ -38,12 +23,6 @@ export const adminGuard: CanActivateFn = async (
   state: RouterStateSnapshot
 ) => { 
   const service = inject(AuthService) 
-  const router = inject(Router);
-  const isAdmin = await service.isAdmin(); 
-  if (isAdmin) {
-    return true; // permite activar la ruta
-  } else {
-    // redirige a la ruta deseada, por ejemplo '/login' o '/not-authorized'
-    return router.createUrlTree(['']);
-  }
+  return await service.isAdmin(); 
+  
 }

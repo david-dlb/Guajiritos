@@ -6,3 +6,10 @@
 ::ng-deep table {
   background-color: #1612156b!important;
 }
+.icon {
+  color: white !important;
+  fill: none;
+}
+.cursor {
+  cursor: pointer;
+}

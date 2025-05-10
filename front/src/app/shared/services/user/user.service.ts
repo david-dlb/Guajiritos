@@ -96,6 +96,24 @@ export class UserService {
     }  
     return users
   }
+  async getFirst(): Promise<User[]> {
+    let users: User[] = [] 
+    const token = localStorage.getItem('token');
+    if (!token) return [];
+    try {
+      const data = await fetch(`${urlProtected}/users?_page=1&_limit=10`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      })
+      users = await data.json()
+    } catch (error) {
+      console.log('Error:', error);
+    }  
+    return users
+  }
 
   async getById(id: string): Promise<UserEdit[]> {
     let users: User[] = [] 

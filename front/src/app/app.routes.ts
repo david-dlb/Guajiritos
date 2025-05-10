@@ -6,7 +6,6 @@ import { loggedGuard, loginGuard } from './core/guard';
 export const routes: Routes = [
     {
         path: "",
-        canActivate: [loginGuard],
         component: LoginComponent
     }, 
     {

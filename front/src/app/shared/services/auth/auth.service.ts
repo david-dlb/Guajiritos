@@ -52,19 +52,16 @@ export class AuthService {
     const email = getTokenEmail(token);
     if (!email) return false;
     try {
-      const response = await fetch(`${baseUrl}/users?email=${email}`, {
+      const response = await fetch(`${urlProtected}/users?email=${email}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         }
-      });
-  
+      }); 
       if (response.status !== 200) return false;
   
-      const data = await response.json();
-      // Suponiendo que el rol está en data.role
-      console.log(data[0])
+      const data = await response.json(); 
       return data.length > 0 ? true : false;
     } catch (error) {
       console.error('Error en adminGuard:', error);
@@ -86,7 +83,7 @@ export class AuthService {
     const email = getTokenEmail(token);
     if (!email) return false;
     try {
-      const response = await fetch(`${baseUrl}/users?email=${email}`, {
+      const response = await fetch(`${urlProtected}/users?email=${email}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -96,9 +93,7 @@ export class AuthService {
   
       if (response.status !== 200) return false;
   
-      const data = await response.json();
-      // Suponiendo que el rol está en data.role
-      console.log(data[0])
+      const data = await response.json(); 
       return data.length > 0 ? data[0].role == 'admin' : false;
     } catch (error) {
       console.error('Error en adminGuard:', error);

@@ -58,7 +58,7 @@ export class TaskComponent {
   totalItems = 0;
   pageSize = 5; // o el valor por default
   currentPage = 0;
-
+  hasElement = true
   private snackBar = inject(SnackBarService);
   
 
@@ -72,8 +72,8 @@ export class TaskComponent {
 
 
   async ngOnInit() {
-    console.log(1)
-    this.tasks = await this.taskService.get()
+    console.log(1, "init")
+    this.tasks = await this.taskService.getFirst()
     this.loadTasks(this.tasks);
     this.isAdmin = await this.authService.isAdmin() 
     if (this.isAdmin) {
@@ -84,6 +84,7 @@ export class TaskComponent {
 
   async loadTasks(tasks: Task[]) { 
     this.dataSource.data = tasks;
+    this.hasElement = tasks.length > 0 ? true : false
   } 
 
   async search() {
@@ -113,8 +114,8 @@ export class TaskComponent {
     }
   }
 
-  onPageChanged(event: { pageIndex: number }) {
-    this.page = event.pageIndex
-    this.search()
+  async onPageChanged(event: { pageIndex: number }) {
+    this.page = event.pageIndex 
+    await this.search()
   }
 }
