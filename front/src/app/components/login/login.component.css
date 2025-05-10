@@ -1,7 +1,27 @@
-:host {
+ 
+
+  .center-container {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* ocupa toda la altura de la ventana */
+    padding: 16px; /* opcional, para que no pegue en los bordes */
+    background-image: url('../../../image/fondo.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  /* Estilo para la tarjeta si quieres */
+  .login-card {
+    width: 100%;
+    max-width: 400px; /* ajusta el ancho máximo */
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    background-color: #397171c7;
+  }
+  .mat-card {
+    background-color: #050606c7;
   }
 .body {
   background-color: blue;

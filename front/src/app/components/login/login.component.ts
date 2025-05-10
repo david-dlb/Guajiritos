@@ -7,6 +7,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
+import { AuthService } from '../../shared/services/auth/auth.service';
+import { SnackBarService } from '../../shared/snack-bar.service';
 
 @Component({
   selector: 'app-login',
@@ -20,11 +22,12 @@ import {MatCardModule} from '@angular/material/card';
 export default class LoginComponent {
   private _form = inject(FormBuilder)
   private _router = inject(Router)
+  private authService = inject(AuthService)
   form = this._form.group({
     name: ["", Validators.required],
     password: ["", Validators.required]
   })
-  private _snackBar = inject(MatSnackBar);
+  private snackBar = inject(SnackBarService);
   email: string = '';
   password: string = '';
   hide: boolean = true;
@@ -34,40 +37,27 @@ export default class LoginComponent {
     console.log('Email:', this.email);
     console.log('Password:', this.password);
   }
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action);
-  } 
-  constructor() {
-
-  }
-  submit() {
+   
+  async submit() {
     console.log(this.form.getRawValue())
     const { name, password } = this.form.value 
-
-    fetch('http://localhost:3000/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: name,
-        email: "f@g.c",
-        password: password
-      })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.accessToken) {
-        const jwtToken = data.accessToken
-        // Para guardar el token
-        localStorage.setItem('token', jwtToken);
-        
-        this._router.navigateByUrl("/dashboard/taks")
-      } else {
-        console.log('Error:', data);
-      }
-    })
-    .catch(error => console.error('Error en la petición:', error));
+    const data = {
+      name: name || "",
+      email: "d@d.d",
+      password: password || ""
+    }
+    const response = await this.authService.login(data)
+    console.log(response)
+    if (response.accessToken) {
+      const jwtToken = response.accessToken
+      // Para guardar el token
+      localStorage.setItem('token', jwtToken);
+      
+      this._router.navigateByUrl("/dashboard/task")
+    } else {
+      this.snackBar.openSnackBar("Error al enviar")
+      console.log('Error:', data);
+    } 
   }
 
   invalid() {

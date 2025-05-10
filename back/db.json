@@ -1,7 +1,7 @@
 {
   "tasks": [
     {
-      "name": "d",
+      "name": "olivier",
       "description": "d",
       "state": "",
       "user": "always",
@@ -13,14 +13,211 @@
       "state": "auto",
       "user": "option",
       "id": 10
+    },
+    {
+      "name": "",
+      "description": "dsd",
+      "state": "1",
+      "user": "option",
+      "id": 11
+    },
+    {
+      "id": 12,
+      "name": "ddddddddddddddddddddddd",
+      "description": "dsddddsddd",
+      "state": "1",
+      "user": "dsd"
+    },
+    {
+      "name": "",
+      "email": "",
+      "role": "admin",
+      "id": 13
+    },
+    {
+      "name": "",
+      "email": "",
+      "role": "admin",
+      "id": 14
+    },
+    {
+      "name": "",
+      "email": "",
+      "role": "admin",
+      "id": 15
+    },
+    {
+      "name": "",
+      "email": "",
+      "role": "admin",
+      "id": 16
+    },
+    {
+      "name": "as",
+      "email": "f@f.f",
+      "role": "user",
+      "id": 17
+    },
+    {
+      "name": "as",
+      "email": "f@f.f",
+      "role": "user",
+      "id": 18
+    },
+    {
+      "name": "as",
+      "email": "f@f.f",
+      "role": "user",
+      "id": 19
+    },
+    {
+      "name": "dsd",
+      "password": "dsd",
+      "email": "ds",
+      "role": "user",
+      "id": 20
+    },
+    {
+      "name": "dsd",
+      "description": "sd",
+      "state": "1",
+      "user": "option",
+      "id": 21
+    },
+    {
+      "name": "dsd",
+      "description": "sd",
+      "state": "1",
+      "user": "option",
+      "id": 22
+    },
+    {
+      "name": "dsd",
+      "description": "sd",
+      "state": "1",
+      "user": "option",
+      "id": 23
+    },
+    {
+      "name": "dsd",
+      "description": "sd",
+      "state": "1",
+      "user": "option",
+      "id": 24
+    },
+    {
+      "name": "",
+      "description": "",
+      "state": "0",
+      "user": "",
+      "id": 25
+    },
+    {
+      "name": "s",
+      "description": "s",
+      "state": "2",
+      "user": "option",
+      "id": 26
+    },
+    {
+      "name": "s",
+      "description": "s",
+      "state": "2",
+      "user": "option",
+      "id": 27
+    },
+    {
+      "name": "s",
+      "description": "s",
+      "state": "2",
+      "user": "option",
+      "id": 28
+    },
+    {
+      "name": "s",
+      "description": "s",
+      "state": "2",
+      "user": "option",
+      "id": 29
+    },
+    {
+      "name": "s",
+      "description": "s",
+      "state": "2",
+      "user": "option",
+      "id": 30
+    },
+    {
+      "name": "s",
+      "description": "s",
+      "state": "2",
+      "user": "option",
+      "id": 31
+    },
+    {
+      "name": "add",
+      "description": "dd",
+      "state": "1",
+      "user": 3,
+      "id": 32
+    },
+    {
+      "name": "dda",
+      "description": "dad",
+      "state": "2",
+      "user": "",
+      "id": 33
+    },
+    {
+      "name": "",
+      "description": "",
+      "state": "0",
+      "user": "",
+      "id": 34
+    },
+    {
+      "name": "add",
+      "description": "ad",
+      "state": "",
+      "user": 3,
+      "id": 35
     }
   ],
   "users": [
     {
-      "email": "f@g.c",
-      "password": "$2a$10$stFiAyIj1v0r51MGKdFvHuw83mKwzcAdYaZEYDZGEz6FGj2yFGZ/G",
-      "name": "olivier",
-      "id": 1
+      "email": "d@d.d",
+      "password": "$2a$10$wLFf8cFpm1mhj56NfWkz/.BZitMDs2ZtXAAVRVT.CrcWCBJljDjFa",
+      "name": "admin",
+      "role": "admin",
+      "id": 2
+    },
+    {
+      "id": 3,
+      "name": "admindddaaaaaaaad",
+      "password": "$2a$10$HdRfLXLByFJYFCM1x2jIN.tn7vxGd4KpK1SXk0TMRI0g1dFqbBcXu",
+      "email": "j@d.d",
+      "role": "user"
+    },
+    {
+      "email": "jd@d.d",
+      "password": "$2a$10$IdYl7hSTOd59aDzLwtzZ4OJQF/6EksRLsk/3Rl4XTZ1FcCeicwT8i",
+      "name": "admin",
+      "role": "admin",
+      "id": 4
+    },
+    {
+      "email": "dd@d.d",
+      "password": "$2a$10$4UeWKU2O23A0lrFEBmuXEuEKJDzfNmfkDyszlVDFTO5KJxJH3kN7y",
+      "name": "admin",
+      "role": "admin",
+      "id": 5
+    },
+    {
+      "email": "fa@g.f",
+      "password": "$2a$10$.xvEbOD5.WJgPVbPHZThMObMzx9q48nz0QO30zjTSdlw2M3kB3RI2",
+      "name": "fafas",
+      "role": "user",
+      "id": 6
     }
   ]
 }

@@ -1,0 +1,163 @@
+import { Injectable } from '@angular/core';
+import { urlProtected } from '../../env';
+export interface User {
+  id: string
+  name: string,
+  password: string
+  email: string,
+  role: string
+}
+export interface UserFilter { 
+  query: string,
+  type: string,
+  role: string,
+  page: number
+} 
+export type UserCreate = Omit<User, "id">
+export type UserEdit = Omit<User, "password">
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+
+  async create(user: UserCreate) {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    try {
+      const body = JSON.stringify(user)
+      const data = await fetch(`${urlProtected}/users`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: body
+      })
+      await data.json()
+    } catch (error) {
+      console.log('Error:', error);
+    }  
+  }
+  
+
+  async edit(user: User | UserEdit) {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    console.log(user)
+    try {
+      const body = JSON.stringify(user)
+      const data = await fetch(`${urlProtected}/users/${user.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: body
+      })
+      return await data.json()
+    } catch (error) {
+      console.log('Error:', error);
+    }  
+  }
+
+  async delete(id: string) {
+    const token = localStorage.getItem('token');
+    if (!token) return ;
+    try {
+      const data = await fetch(`${urlProtected}/users/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      })
+    } catch (error) {
+      console.log('Error:', error);
+    }  
+  }
+
+  async get(): Promise<User[]> {
+    let users: User[] = [] 
+    const token = localStorage.getItem('token');
+    if (!token) return [];
+    try {
+      const data = await fetch(`${urlProtected}/users`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      })
+      users = await data.json()
+    } catch (error) {
+      console.log('Error:', error);
+    }  
+    return users
+  }
+
+  async getById(id: string): Promise<UserEdit[]> {
+    let users: User[] = [] 
+    let response: any[]  = []
+    const token = localStorage.getItem('token');
+    if (!token) return [];
+    try {
+      const data = await fetch(`${urlProtected}/users?id=${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      })
+      users = await data.json()
+      if (users.length > 0) {
+      response = [{
+          id: users[0].id,
+          name: users[0].name,
+          email: users[0].email,
+          role: users[0].role
+        }]
+      }
+    } catch (error) {
+      console.log('Error:', error);
+    }  
+    return response
+  }
+
+  async getParams(options: UserFilter): Promise<User[]> {
+    let users: User[] = [] 
+    let opt = ""
+    const token = localStorage.getItem('token');
+    if (!token) return [];
+    console.log(options)
+    if (options.query) {
+      if (options.type == "name") {
+        opt+= `name=${options.query}&`
+      }
+      if (options.type == "email") {
+        opt+= `email=${options.query}&`
+      } 
+    }
+    if (options.role) {
+      opt+= `role=${options.role}&`
+    } 
+    if (options.page) {
+      opt+= `_page=${options.page + 1}&_limit=10`
+    }
+    opt = opt.length > 0 ? `?${opt}` : ""
+    try {
+      const data = await fetch(`${urlProtected}/users${opt}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      })
+      users = await data.json()
+    } catch (error) {
+      console.log('Error:', error);
+    }  
+    return users
+  }
+}

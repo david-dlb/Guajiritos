@@ -1,0 +1,6 @@
+::ng-deep body {
+   
+    background-image: url('../../../../image/fondo.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }

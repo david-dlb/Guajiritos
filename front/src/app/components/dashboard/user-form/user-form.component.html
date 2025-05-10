@@ -1,6 +1,13 @@
 
 <style>
     /* Estilo para la tarjeta de login */
+
+::ng-deep body {
+   
+  background-image: url('../../../../image/fondo.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .login-card {
   max-width: 400px;
   margin: 50px auto;
@@ -189,7 +196,7 @@ em {
 
 <mat-card class="login-card">
     <mat-card-header>
-      <mat-card-title>Agregar Tarea</mat-card-title>
+      <mat-card-title>Agregar Usuario</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
@@ -198,36 +205,30 @@ em {
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="full-width">
-            <input matInput placeholder="Descripcion:" formControlName="description">
-        </mat-form-field>
-    
-        @if(isAdmin){<mat-form-field appearance="fill">
-          <mat-label>Usuario</mat-label>
-          <mat-select formControlName="user" placeholder="Selecciona un usuario" required>
-            <mat-option *ngFor="let user of users" [value]="user.id">
-              {{ user.name }}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="form.get('user')?.hasError('required')">
-            Debes seleccionar un usuario
-          </mat-error>
-        </mat-form-field>
-      }
+            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" placeholder="Contraseña" name="password" required>
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Ocultar contraseña'">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <input matInput placeholder="Correo:" formControlName="email">
+        </mat-form-field> 
+
         <div class="form-grid">
             <div class="label-column">
-              <label>Estado:</label>
+              <label>Rol:</label>
             </div>
             <div class="input-column">
-              <mat-radio-group formControlName="state" class="vertical-radio-group">
-                <mat-radio-button value="0">Pendiente</mat-radio-button>
-                <mat-radio-button value="1">En progreso</mat-radio-button>
-                <mat-radio-button value="2">Completada</mat-radio-button>
+              <mat-radio-group formControlName="role" class="vertical-radio-group">
+                <mat-radio-button value="admin">Administrador</mat-radio-button>
+                <mat-radio-button value="user">Usuario</mat-radio-button>
               </mat-radio-group>
             </div>
           </div>
   
         <div class="div-flex">
-            <a routerLink="/dashboard/task" mat-raised-button color="primary" class="full-width">Atras</a>
+            <a routerLink="/dashboard/user" mat-raised-button color="primary" class="full-width">Atras</a>
             <button mat-raised-button color="primary" class="full-width" type="submit">Ingresar</button>
         </div>
       </form>

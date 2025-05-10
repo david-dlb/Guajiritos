@@ -20,7 +20,9 @@
   flex: 1; /* Para que ocupe todo el espacio central */
   justify-content: center;
 }
- 
+.active-link {
+  color: #ffabf3 !important;
+}
 </style>
 
 <mat-toolbar color="primary" class="toolbar">
@@ -31,8 +33,15 @@
   
     <!-- Menú centro -->
     <div class="center-menu">
-        <a mat-button routerLink="./task">Tareas</a>
-        <a mat-button routerLink="./user">Usuarios</a>
+      <a mat-button 
+         routerLink="./task" 
+         routerLinkActive="active-link" 
+         [routerLinkActiveOptions]="{ exact: true }">Tareas</a>
+      
+      <a *ngIf="isAdmin" mat-button 
+         routerLink="./user" 
+         routerLinkActive="active-link" 
+         [routerLinkActiveOptions]="{ exact: true }">Usuarios</a>
     </div>
   
     <!-- Salir a la derecha -->

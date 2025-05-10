@@ -3,10 +3,15 @@
         display: flex;
         justify-content: center;
         margin-top: 30px;
+        background: none;
+        margin-bottom: 30px;
     }
+    /* Para modificar estilos internos, usa ::ng-deep (deprecado, pero todavía funciona) o estilos globales */
+::ng-deep .mat-mdc-paginator-outer-container {
+  background: black;
+}
 </style>
 <mat-paginator class="paginator" (page)="onPageChange($event)" [length]="100"
-              [pageSize]="10"
-              [pageSizeOptions]="[5, 10, 25, 100]"
+              [pageSize]="10" 
               aria-label="Select page">
 </mat-paginator>

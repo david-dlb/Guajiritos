@@ -10,39 +10,33 @@ import { MatCardModule } from '@angular/material/card';
 
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule} from '@angular/material/radio';
-import { TaskCreate, TaskService } from '../../../shared/services/task/task.service';
-import { AuthService } from '../../../shared/services/auth/auth.service';
+import { UserService } from '../../../shared/services/user/user.service';
 import { SnackBarService } from '../../../shared/snack-bar.service';
-import { User, UserService } from '../../../shared/services/user/user.service';
-import { CommonModule } from '@angular/common';
 
 
 @Component({
-  selector: 'app-task-form',
+  selector: 'app-user-form',
   imports: [
-    CommonModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     RouterLink,
     MatButtonModule, ReactiveFormsModule, MatSelectModule, MatRadioModule, MatSnackBarModule, MatCardModule],
-  templateUrl: './task-form.component.html',
-  styleUrl: './task-form.component.css'
+  templateUrl: './user-form.component.html',
+  styleUrl: './user-form.component.css'
 })
-export default class TaskFormComponent {
+export class UserFormComponent {
   private _form = inject(FormBuilder)
-  taskService = inject(TaskService)
   userService = inject(UserService)
   route = inject(ActivatedRoute)
-  authService = inject(AuthService)
-  isAdmin = true
   form = this._form.group({
     name: ["", Validators.required],
-    description: ["", Validators.required],
-    user: ["", Validators.required],
-    state: ["0", Validators.required],
-  }) 
-  users: User[] = []
+    password: ["", Validators.required],
+    email: ["", Validators.required],
+    role: ["admin", Validators.required],
+  })
+
+  hide: boolean = true; 
   private snackBar = inject(SnackBarService);
   
   id: string | null = null 
@@ -53,59 +47,60 @@ export default class TaskFormComponent {
       this.id = paramMap.get('id');
     });
     this.get()
-    this.getUsers()
   }
 
-  submit() {
-    const { name, description, user, state } = this.form.value 
+  async submit() {
+    const { name, password, email, role } = this.form.value 
     
     if (this.id) {
-      const data = {
-        id: this.id,
-        name: name || "",
-        description: description || "",
-        state: state || "",
-        user: user || ""
-      } 
-      this.taskService.edit(data)
+      
+      if (password) {
+        const data = {
+          id: this.id,
+          name: name || "",
+          password: password,
+          email: email || "",
+          role: role || "", 
+        } 
+      const s = await this.userService.edit(data)
+      console.log(s)
+      } else {
+        let data = {
+          id: this.id,
+          name: name || "",
+          email: email || "",
+          role: role || "", 
+        } 
+        const s = await this.userService.edit(data)
+      }
     } else {
       const data = {
         name: name || "",
-        description: description || "",
-        state: state || "",
-        user: user || ""
-      }
+        password: password || "",
+        email: email || "",
+        role: role || "", 
+      } 
+      console.log(data)
       try {
-        this.taskService.create(data)      
+        this.userService.create(data)    
         this.form.reset();
-        this.snackBar.openSnackBar("Tarea enviada")   
+        this.snackBar.openSnackBar("Usuario enviada")   
       } catch (error) {
         this.snackBar.openSnackBar("Error al enviar")   
-        
       }
     }
   }
 
   async get() {
     if (this.id) {
-      const data = await this.taskService.getById(this.id)
-      if (data[0]) {
-        try {
+      try {  
+        const data = await this.userService.getById(this.id)
+        if (data[0]) {
           this.form.patchValue(data[0])
-        } catch (error) {
-          this.snackBar.openSnackBar("Error al obtener la tarea")   
         }
+      } catch (error) {
+        this.snackBar.openSnackBar("Error al obtener usuario")   
       }
     }
   }
-
-  async getUsers() {
-    try {
-      this.users = await this.userService.get()
-      console.log(this.users)
-    } catch (error) {
-      this.snackBar.openSnackBar("Error al cargar usuarios")   
-    }
-  }
- 
 }
