@@ -1,6 +1,185 @@
 ::ng-deep body {
    
-    background-image: url('../../../../image/fondo.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
+  background-image: url('../../../../image/fondo.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.login-card {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  background-color: #397171c7;
+  color: white;
+  width: auto;
+}
+
+/* Encabezado del formulario */
+.mat-card-header {
+  text-align: center;
+  background-color: #3f51b5; /* Color del encabezado */
+  color: rgb(0, 0, 0);
+  border-radius: 10px 10px 0 0;
+  padding: 10px 0;
+}
+
+.mat-card-title {
+  font-size: 1.8em;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Estilo para los campos de formulario */
+.full-width {
+  width: 100%;
+  margin-top: 15px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+/* Para todos los mat-form-field en tu componente */
+mat-form-field { 
+  border-radius: 5px;
+  padding: 8px; /* opcional, para mejor separación */
+}
+
+/* Si quieres que solo afecte a los mat-form-field con un appearance="fill" en Angular Material, usa la clase personalizada o un atributo como selector, pero por simplicidad, esto funciona en general. */
+
+/* Estilo para los botones */
+button[mat-raised-button] {
+  width: 100%;
+  padding: 12px 0;
+  font-weight: bold;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+button[mat-raised-button]:hover {
+  background-color: #303f9f;
+}
+
+/* Estilo para la sección de estado con radio buttons */
+div {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+label {
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+/* Personalización de los radio buttons */
+mat-radio-group {
+  display: flex;
+  gap: 10px;
+}
+
+/* Estilo para el select con label personalizado */
+mat-form-field {
+  margin-top: 20px;
+}
+
+/* Icono y label del select */
+mat-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+mat-icon {
+  color: #e91e63; /* Color para el icono */
+}
+
+.vertical-radio-group {
+  display: flex;
+  flex-direction: column; /* Para que estén uno debajo del otro */
+  color: #000 !important; /* Para que la letra sea negra */
+}
+.example-container mat-form-field + mat-form-field {
+  margin-left: 8px;
+}
+
+.example-container mat-form-field {
+  width: 220px;
+}
+
+.example-container form {
+  margin-bottom: 20px;
+}
+
+.example-container form > * {
+  margin: 12px 0;
+}
+
+.example-container .mat-radio-button {
+  margin: 0 12px;
+}
+
+.example-form-fields {
+  display: flex;
+  align-items: flex-start;
+}
+
+
+/* Opcional: Para que el color del texto de los radio buttons sea negro */
+.vertical-radio-group mat-radio-button {
+  color: #000;
+}
+strong {
+  font-weight: 700;
+  color: #3f51b5;
+}
+
+em {
+  font-style: italic;
+  color: #757575;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: auto 1fr; /* First column ajusta a contenido, segunda ocupa resto */
+  gap: 10px; /* espacio entre columnas, ajusta a tu preferencia */
+  align-items: start;
+  margin-top: 20px;
+}
+
+.label-column {
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.vertical-radio-group {
+  display: flex;
+  flex-direction: column; /* apilar en vertical */
+  color: #000; /* letra negra */
+}
+
+.text-black {
+  color: #000;
+}
+
+.div-flex{
+    display: flex;
+}
+
+.small-field {
+  font-size: 14px; /* ajusta según la preferencia */
+}
+
+.small-field .mat-form-field-wrapper {
+  padding: 4px 0; /* reduce padding interno */
+}
+
+.small-field .mat-form-field-infix {
+  height: 24px; /* altura del input */
+  font-size: 14px;
+}

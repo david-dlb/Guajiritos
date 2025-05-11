@@ -136,7 +136,7 @@ export default class TaskFormComponent {
 
   async getUsers() {
     try {
-      this.users = await this.userService.get()
+      this.users = await this.userService.getByClient()
     } catch (error) {
       this.snackBar.openSnackBar("Error al cargar usuarios")   
     }

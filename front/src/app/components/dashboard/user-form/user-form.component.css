@@ -1,1 +1,176 @@
  
+::ng-deep body {
+   
+    background-image: url('../../../../image/fondo.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+.login-card {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    background-color: #397171c7;
+    color: white;
+    width: auto;
+ }
+   
+.mat-card-header {
+    text-align: center;
+    background-color: #3f51b5;  
+    color: rgb(0, 0, 0);
+    border-radius: 10px 10px 0 0;
+    padding: 10px 0;
+}
+  
+.mat-card-title {
+    font-size: 1.8em;
+    font-weight: 600;
+    margin: 0;
+}
+   
+.full-width {
+    width: 100%;
+    margin-top: 15px;
+}
+  
+mat-form-field {
+    width: 100%;
+}
+   
+mat-form-field { 
+    border-radius: 5px;
+    padding: 8px;  
+}
+ 
+button[mat-raised-button] {
+    width: 100%;
+    padding: 12px 0;
+    font-weight: bold;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+  
+button[mat-raised-button]:hover {
+    background-color: #303f9f;
+}
+  
+ 
+div {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+  
+label {
+    font-weight: 600;
+    margin-right: 10px;
+}
+   
+mat-radio-group {
+    display: flex;
+    gap: 10px;
+}
+  
+
+mat-form-field {
+    margin-top: 20px;
+}
+  
+ 
+mat-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1em;
+    font-weight: 500;
+}
+  
+mat-icon {
+    color: #e91e63;  
+}
+  
+.vertical-radio-group {
+    display: flex;
+    flex-direction: column; 
+    color: #000 !important;  
+}
+.example-container mat-form-field + mat-form-field {
+    margin-left: 8px;
+}
+  
+.example-container mat-form-field {
+    width: 220px;
+}
+  
+.example-container form {
+    margin-bottom: 20px;
+}
+  
+.example-container form > * {
+    margin: 12px 0;
+}
+  
+.example-container .mat-radio-button {
+    margin: 0 12px;
+}
+  
+.example-form-fields {
+    display: flex;
+    align-items: flex-start;
+}
+  
+.vertical-radio-group mat-radio-button {
+    color: #000;
+}
+strong {
+    font-weight: 700;
+    color: #3f51b5;
+}
+  
+em {
+    font-style: italic;
+    color: #757575;
+}
+.form-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;  
+    gap: 10px;  
+    align-items: start;
+    margin-top: 20px;
+}
+  
+.label-column {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+}
+  
+.vertical-radio-group {
+    display: flex;
+    flex-direction: column;  
+    color: #000; 
+}
+  
+.text-black {
+    color: #000;
+}
+  
+.div-flex{
+      display: flex;
+}
+  
+.small-field {
+    font-size: 14px; 
+}
+  
+.small-field .mat-form-field-wrapper {
+    padding: 4px 0;  
+}
+  
+.small-field .mat-form-field-infix {
+    height: 24px;  
+    font-size: 14px;
+}
