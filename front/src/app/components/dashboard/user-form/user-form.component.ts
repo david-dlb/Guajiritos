@@ -12,11 +12,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule} from '@angular/material/radio';
 import { UserService } from '../../../shared/services/user/user.service';
 import { SnackBarService } from '../../../shared/snack-bar.service';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-user-form',
   imports: [
+    CommonModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
@@ -30,12 +32,11 @@ export class UserFormComponent {
   userService = inject(UserService)
   route = inject(ActivatedRoute)
   form = this._form.group({
-    name: ["", Validators.required],
-    password: ["", Validators.required],
-    email: ["", Validators.required],
-    role: ["admin", Validators.required],
-  })
-
+    name: ["", [Validators.required]],  // Campo obligatorio
+    password: ["", [Validators.required, Validators.minLength(6)]],  // Obligatorio + mínimo 6 caracteres
+    email: ["", [Validators.required, Validators.email]],  // Obligatorio + formato de email válido
+    role: ["admin", [Validators.required]]  // Obligatorio (aunque ya tiene valor por defecto)
+  });
   hide: boolean = true; 
   private snackBar = inject(SnackBarService);
   
@@ -51,7 +52,10 @@ export class UserFormComponent {
 
   async submit() {
     const { name, password, email, role } = this.form.value 
-    
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     if (this.id) {
       
       if (password) {
@@ -62,8 +66,12 @@ export class UserFormComponent {
           email: email || "",
           role: role || "", 
         } 
-      const s = await this.userService.edit(data)
-      console.log(s)
+        try {
+          const s = await this.userService.edit(data) 
+          this.snackBar.openSnackBar("Usuario editado")  
+        } catch (error) {
+          this.snackBar.openSnackBar("Error al enviar")   
+        } 
       } else {
         let data = {
           id: this.id,
@@ -71,7 +79,12 @@ export class UserFormComponent {
           email: email || "",
           role: role || "", 
         } 
-        const s = await this.userService.edit(data)
+        try {
+          const s = await this.userService.edit(data) 
+          this.snackBar.openSnackBar("Usuario editado")  
+        } catch (error) {
+          this.snackBar.openSnackBar("Error al enviar")   
+        }
       }
     } else {
       const data = {
@@ -79,13 +92,17 @@ export class UserFormComponent {
         password: password || "",
         email: email || "",
         role: role || "", 
-      } 
-      console.log(data)
-      try {
-        this.userService.create(data)    
-        this.form.reset();
-        this.snackBar.openSnackBar("Usuario enviada")   
-      } catch (error) {
+      }  
+      try { 
+        await this.userService.create(data)  
+        this.form.setValue({
+          name: "",
+          password: "",
+          email: "",
+          role: "admin"
+        })
+        this.snackBar.openSnackBar("Usuario creado")   
+      } catch (error) { 
         this.snackBar.openSnackBar("Error al enviar")   
       }
     }

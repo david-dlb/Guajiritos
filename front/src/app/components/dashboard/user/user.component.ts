@@ -16,9 +16,9 @@ import { RouterLink } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
-import PaginatorComponent from '../ui/paginator/paginator.component';
 import { User, UserFilter, UserService } from '../../../shared/services/user/user.service';
 import { SnackBarService } from '../../../shared/snack-bar.service';
+import { MatCardModule } from '@angular/material/card';
  
 
 @Component({
@@ -32,8 +32,9 @@ import { SnackBarService } from '../../../shared/snack-bar.service';
       MatSelectModule,
       MatButtonModule,
       MatPaginatorModule,
+      MatCardModule,
       RouterLink,
-      PaginatorComponent],
+      ],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
@@ -69,7 +70,7 @@ displayedColumns: string[] = ['nombre', 'descripcion', 'estado', 'editar'];
 
 
   async ngOnInit() { 
-    this.users = await this.userService.getFirst()
+    this.users = await this.userService.get()
     this.loadUsers(this.users);
   }
 

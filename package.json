@@ -1,0 +1,13 @@
+{
+  "name": "guajirito",
+  "version": "1.0.0",
+  "scripts": { 
+    "start": "npm run back & npm run front",
+    "front": "cd front && ng serve",
+    "back": "cd back && npx json-server --watch db.json -m ./node_modules/json-server-auth",
+    "build": "cd front && ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "serve:ssr:guajirito": "node dist/guajirito/server/server.mjs"
+  }
+}

@@ -91,8 +91,9 @@
   </form>
 </div>
 
-<div class="div-flex ">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">  
+<div class="div-flex mb-3">
+  <!-- Mostrar tabla solo si hay datos -->
+  <table *ngIf="dataSource && dataSource.data.length > 0; else noData" mat-table [dataSource]="dataSource" class="mat-elevation-z8">  
     <ng-container matColumnDef="nombre">
       <th mat-header-cell *matHeaderCellDef> Nombre </th>
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
@@ -114,20 +115,33 @@
     </ng-container>
   
     <ng-container matColumnDef="editar">
-        <th mat-header-cell *matHeaderCellDef>  </th>
-        <td mat-cell *matCellDef="let element"> 
-          <a [routerLink]="['/dashboard/task-form', element.id]">
-            <mat-icon class="icon">edit_round</mat-icon> 
-          </a>
-          <mat-icon class="cursor" (click)="delete(element.id)">delete</mat-icon> 
-        </td>
-      </ng-container>
+      <th mat-header-cell *matHeaderCellDef>  </th>
+      <td mat-cell *matCellDef="let element"> 
+        <a [routerLink]="['/dashboard/task-form', element.id]">
+          <mat-icon class="icon">edit_round</mat-icon> 
+        </a>
+        <mat-icon class="cursor" (click)="delete(element.id)">delete</mat-icon> 
+      </td>
+    </ng-container>
+    
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
+  <!-- Mensaje cuando no hay datos -->
+  <ng-template #noData>
+    <div class="no-data-message">
+      <mat-card class="mat-elevation-z8" style="text-align: center; padding: 20px;">
+        <mat-icon style="font-size: 48px; height: 48px; width: 48px;">info</mat-icon>
+        <h2>Lo sentimos, no hay datos</h2>
+        <p>No se encontraron resultados para tu búsqueda</p>
+      </mat-card>
+    </div>
+  </ng-template>
 </div>
+<div class="sep"></div>
  
-<app-paginator [hasElement]="hasElement" (pageChange)="onPageChanged($event)"></app-paginator>
+<!-- <app-paginator [hasElement]="hasElement" (pageChange)="onPageChanged($event)"></app-paginator> -->
 <!-- Aquí puede estar tu contenido -->
 <!-- Botón circular en la esquina inferior derecha -->
    <a  routerLink="/dashboard/task-form">

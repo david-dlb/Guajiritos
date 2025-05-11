@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { urlProtected } from '../../env';
+import { validResponse } from '../../../utils/utils';
 export interface User {
   id: string
   name: string,
@@ -27,7 +28,8 @@ export class UserService {
     if (!token) return;
     try {
       const body = JSON.stringify(user)
-      const data = await fetch(`${urlProtected}/users`, {
+      console.log(body)
+      const data = await fetch(`${urlProtected}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,8 +37,11 @@ export class UserService {
         },
         body: body
       })
-      await data.json()
+      console.log(data)
+      validResponse(data.status)
+      const d = await data.json() 
     } catch (error) {
+      throw new Error("Error en la peticion")
       console.log('Error:', error);
     }  
   }
@@ -56,8 +61,10 @@ export class UserService {
         },
         body: body
       })
+      validResponse(data.status)
       return await data.json()
     } catch (error) {
+      throw new Error("Error en la peticion")
       console.log('Error:', error);
     }  
   }
@@ -73,7 +80,9 @@ export class UserService {
           'Authorization': `Bearer ${token}`
         },
       })
+      validResponse(data.status)
     } catch (error) {
+      throw new Error("Error en la peticion")
       console.log('Error:', error);
     }  
   }
@@ -90,8 +99,11 @@ export class UserService {
           'Authorization': `Bearer ${token}`
         },
       })
+      validResponse(data.status)
       users = await data.json()
+      
     } catch (error) {
+      throw new Error("Error en la peticion")
       console.log('Error:', error);
     }  
     return users
@@ -108,8 +120,10 @@ export class UserService {
           'Authorization': `Bearer ${token}`
         },
       })
+      validResponse(data.status)
       users = await data.json()
     } catch (error) {
+      throw new Error("Error en la peticion")
       console.log('Error:', error);
     }  
     return users
@@ -128,6 +142,7 @@ export class UserService {
           'Authorization': `Bearer ${token}`
         },
       })
+      validResponse(data.status)
       users = await data.json()
       if (users.length > 0) {
       response = [{
@@ -138,6 +153,7 @@ export class UserService {
         }]
       }
     } catch (error) {
+      throw new Error("Error en la peticion")
       console.log('Error:', error);
     }  
     return response
@@ -172,8 +188,10 @@ export class UserService {
           'Authorization': `Bearer ${token}`
         },
       })
+      validResponse(data.status)
       users = await data.json()
     } catch (error) {
+      throw new Error("Error en la peticion")
       console.log('Error:', error);
     }  
     return users

@@ -13,3 +13,24 @@
 .cursor {
   cursor: pointer;
 }
+.sep{ 
+  height: 40px; 
+}
+
+.no-data-message {
+  width: 90%;
+  margin: 20px auto;
+}
+
+.no-data-message mat-card {
+  background-color: #1612156b;
+}
+
+.no-data-message h2 {
+  color: black;
+  margin: 10px 0;
+}
+
+.no-data-message p {
+  color: black;
+}

@@ -16,10 +16,11 @@ import { RouterLink } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
-import PaginatorComponent from '../ui/paginator/paginator.component';
 import { AuthService } from '../../../shared/services/auth/auth.service';
 import { Task, TaskFilter, TaskService } from '../../../shared/services/task/task.service';
 import { SnackBarService } from '../../../shared/snack-bar.service';
+import { UserService } from '../../../shared/services/user/user.service';
+import { MatCardModule } from '@angular/material/card';
  
 
 @Component({
@@ -33,8 +34,8 @@ import { SnackBarService } from '../../../shared/snack-bar.service';
     MatSelectModule,
     MatButtonModule,
     MatPaginatorModule,
+    MatCardModule,
     RouterLink,
-    PaginatorComponent
   ],
   templateUrl: './task.component.html',
   styleUrl: './task.component.css'
@@ -52,6 +53,7 @@ export class TaskComponent {
   ];
   @Input() tasks!: Task[];
   taskService = inject(TaskService)
+  userService = inject(UserService)
   authService = inject(AuthService)
   dataSource = new MatTableDataSource<Task>();
   isAdmin = false
@@ -71,11 +73,9 @@ export class TaskComponent {
   private page = 0
 
 
-  async ngOnInit() {
-    console.log(1, "init")
-    this.tasks = await this.taskService.getFirst()
-    this.loadTasks(this.tasks);
+  async ngOnInit() { 
     this.isAdmin = await this.authService.isAdmin() 
+    await this.search()
     if (this.isAdmin) {
       this.displayedColumns.splice(2, 0, 'usuario');
       this.options.splice(1, 0, { value: 'user', label: 'Usuario' });
@@ -83,6 +83,22 @@ export class TaskComponent {
   }
 
   async loadTasks(tasks: Task[]) { 
+    tasks.map(async (task) => {
+      switch(task.state){
+        case "0" :
+          task.state = "Pendiente"
+          break
+        case "1" :
+          task.state = "En progreso"
+          break
+        case "2" :
+          task.state = "Completada"
+      }
+      const user = await this.userService.getById(task.id)
+      if (user.length > 0) {
+        task.user = user[0].name
+      }
+    })
     this.dataSource.data = tasks;
     this.hasElement = tasks.length > 0 ? true : false
   } 
@@ -95,8 +111,16 @@ export class TaskComponent {
       state: state || "",
       page: this.page
     }
-    try {  
-      const data = await this.taskService.getParams(options)
+    console.log(query)
+    try {
+      let data: Task[] 
+      if (!this.isAdmin) {
+        const id = await this.authService.getCurrentUserId()
+        data = await this.taskService.getParamsByUser(options, id)
+        console.log(data)
+      } else {
+        data = await this.taskService.getParams(options)
+      }
       this.loadTasks(data) 
     } catch (error) {
       this.snackBar.openSnackBar("Error al filtrar")   

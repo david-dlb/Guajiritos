@@ -2,8 +2,8 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { User } from '../user/user.service';
 import { baseUrl, urlProtected } from '../../env'
 import { isPlatformBrowser } from '@angular/common';
-export interface Login {
-  name: string
+import { validResponse } from '../../../utils/utils';
+export interface Login { 
   email: string
   password: string
 }
@@ -25,12 +25,9 @@ export class AuthService {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          password: data.password
-        })
+        body: JSON.stringify(data)
       });
+      validResponse(res.status)
       const responseData = await res.json();
       return responseData;
     } catch (error) {
@@ -101,7 +98,43 @@ export class AuthService {
     }
     return isAdmin
   }
+
+  async getCurrentUserId() {
+    if (!this.isBrowser) {
+      // No estamos en navegador, no hay localStorage
+      return false;
+    }
+
+    let isAdmin = false
+    const token = localStorage.getItem('token');
+    if (!token) return false;
+    
+    const email = getTokenEmail(token);
+    if (!email) return false;
+    try {
+      const response = await fetch(`${urlProtected}/users?email=${email}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+  
+      if (response.status !== 200) return false;
+  
+      const data = await response.json(); 
+      if (data.length > 0) {
+        return data[0].id
+      }
+      throw new Error("Usuario no encontrado") 
+    } catch (error) {
+      throw error
+    }
+    return isAdmin
+  }
 }
+
+
 
 function getTokenEmail(token: string): string | null {
   try {

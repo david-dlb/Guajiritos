@@ -9,10 +9,13 @@ import { Router } from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
 import { AuthService } from '../../shared/services/auth/auth.service';
 import { SnackBarService } from '../../shared/snack-bar.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [MatFormFieldModule,
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatButtonModule, ReactiveFormsModule, MatSnackBarModule, MatCardModule],
@@ -24,7 +27,7 @@ export default class LoginComponent {
   private _router = inject(Router)
   private authService = inject(AuthService)
   form = this._form.group({
-    name: ["", Validators.required],
+    email: ["", [Validators.required, Validators.email]],  // Obligatorio + formato de email válido
     password: ["", Validators.required]
   })
   private snackBar = inject(SnackBarService);
@@ -39,25 +42,32 @@ export default class LoginComponent {
   }
    
   async submit() {
-    console.log(this.form.getRawValue())
-    const { name, password } = this.form.value 
+    const { email, password } = this.form.value 
+    if (this.form.invalid) {
+      this.form.markAllAsTouched(); // Muestra errores si hay campos inválidos
+      return;
+    }
     const data = {
-      name: name || "",
-      email: "d@d.d",
+      email: email || "",
       password: password || ""
     }
-    const response = await this.authService.login(data)
-    console.log(response)
-    if (response.accessToken) {
-      const jwtToken = response.accessToken
-      // Para guardar el token
-      localStorage.setItem('token', jwtToken);
-      
-      this._router.navigateByUrl("/dashboard/task")
-    } else {
+    try {
+      const response = await this.authService.login(data)
+      console.log(response)
+      if (response.accessToken) {
+        const jwtToken = response.accessToken
+        // Para guardar el token
+        localStorage.setItem('token', jwtToken);
+        
+        this._router.navigateByUrl("/dashboard/task")
+      } else {
+        this.snackBar.openSnackBar("Error al enviar")
+        console.log('Error:', data);
+      } 
+    } catch (error) {
       this.snackBar.openSnackBar("Error al enviar")
-      console.log('Error:', data);
-    } 
+    }
+    
   }
 
   invalid() {

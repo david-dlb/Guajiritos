@@ -196,10 +196,20 @@ em {
         <mat-form-field appearance="fill" class="full-width small-field">
           <input matInput placeholder="Nombre:" formControlName="name">
         </mat-form-field>
-
+        <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+          <small class="text-danger" *ngIf="form.get('name')?.errors?.['required']">
+            El nombre es obligatorio
+          </small>
+        </div>
+        
         <mat-form-field appearance="fill" class="full-width">
             <input matInput placeholder="Descripcion:" formControlName="description">
         </mat-form-field>
+        <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched">
+          <small class="text-danger" *ngIf="form.get('description')?.errors?.['required']">
+            La descripción es obligatoria
+          </small>
+        </div>
     
         @if(isAdmin){<mat-form-field appearance="fill">
           <mat-label>Usuario</mat-label>
@@ -223,6 +233,11 @@ em {
                 <mat-radio-button value="1">En progreso</mat-radio-button>
                 <mat-radio-button value="2">Completada</mat-radio-button>
               </mat-radio-group>
+            </div>
+            <div *ngIf="form.get('state')?.invalid && form.get('state')?.touched">
+              <small class="text-danger" *ngIf="form.get('state')?.errors?.['required']">
+                Selecciona un estado
+              </small>
             </div>
           </div>
   

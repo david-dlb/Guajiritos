@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { urlProtected } from '../../env'
+import { validResponse } from "../../../utils/utils";
 
 export interface Task {
     id: string
@@ -34,6 +35,7 @@ export class TaskService {
         },
         body: body
       })
+      validResponse(data.status)
       await data.json()
     } catch (error) {
       console.log('Error:', error);
@@ -54,6 +56,7 @@ export class TaskService {
         },
         body: body
       })
+      validResponse(data.status)
       await data.json()
     } catch (error) {
       console.log('Error:', error);
@@ -71,6 +74,7 @@ export class TaskService {
           'Authorization': `Bearer ${token}`
         },
       })
+      validResponse(data.status)
     } catch (error) {
       console.log('Error:', error);
     }  
@@ -88,6 +92,27 @@ export class TaskService {
           'Authorization': `Bearer ${token}`
         },
       })
+      validResponse(data.status)
+      tasks = await data.json()
+    } catch (error) {
+      console.log('Error:', error);
+    }  
+    return tasks
+  }
+
+  async getByUser(id: string): Promise<Task[]> {
+    let tasks: Task[] = [] 
+    const token = localStorage.getItem('token');
+    if (!token) return [];
+    try {
+      const data = await fetch(`${urlProtected}/tasks?user=${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      })
+      validResponse(data.status)
       tasks = await data.json()
     } catch (error) {
       console.log('Error:', error);
@@ -107,6 +132,7 @@ export class TaskService {
           'Authorization': `Bearer ${token}`
         },
       })
+      validResponse(data.status)
       tasks = await data.json()
     } catch (error) {
       console.log('Error:', error);
@@ -126,6 +152,7 @@ export class TaskService {
           'Authorization': `Bearer ${token}`
         },
       })
+      validResponse(data.status)
       tasks = await data.json()
     } catch (error) {
       console.log('Error:', error);
@@ -152,9 +179,9 @@ export class TaskService {
     if (options.state) {
       opt+= `state=${options.state}&`
     }
-    if (options.page != null) {
-      opt+= `_page=${options.page + 1}&_limit=10`
-    }
+    // if (options.page != null) {
+    //   opt+= `_page=${options.page + 1}&_limit=10`
+    // }
     opt = opt.length > 0 ? `?${opt}` : "" 
     try {
       const data = await fetch(`${urlProtected}/tasks${opt}`, {
@@ -164,6 +191,45 @@ export class TaskService {
           'Authorization': `Bearer ${token}`
         },
       })
+      validResponse(data.status)
+      tasks = await data.json()
+    } catch (error) {
+      console.log('Error:', error);
+    }  
+    return tasks
+  }
+
+  async getParamsByUser(options: TaskFilter, id: string): Promise<Task[]> {
+    let tasks: Task[] = [] 
+    let opt = ""
+    const token = localStorage.getItem('token');
+    if (!token) return []; 
+    if (options.query) {
+      if (options.type == "name") {
+        opt+= `name=${options.query}&`
+      }
+      if (options.type == "description") {
+        opt+= `description=${options.query}&`
+      }
+      if (options.type == "user") {
+        opt+= `user=${options.query}&`
+      }
+    }
+    if (options.state) {
+      opt+= `state=${options.state}&`
+    }
+    // if (options.page != null) {
+    //   opt+= `_page=${options.page + 1}&_limit=10`
+    // }
+    try {
+      const data = await fetch(`${urlProtected}/tasks?user=${id}&${opt}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      })
+      validResponse(data.status)
       tasks = await data.json()
     } catch (error) {
       console.log('Error:', error);

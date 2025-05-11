@@ -3,7 +3,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -30,35 +30,59 @@ import { CommonModule } from '@angular/common';
   styleUrl: './task-form.component.css'
 })
 export default class TaskFormComponent {
-  private _form = inject(FormBuilder)
   taskService = inject(TaskService)
   userService = inject(UserService)
-  route = inject(ActivatedRoute)
   authService = inject(AuthService)
+  route = inject(ActivatedRoute)
   isAdmin = true
+  private _form = inject(FormBuilder)
   form = this._form.group({
     name: ["", Validators.required],
     description: ["", Validators.required],
-    user: ["", Validators.required],
+    user: ["", Validators.required], // Campo obligatorio, pero se auto-completará si !isAdmin
     state: ["0", Validators.required],
-  }) 
+  });
+   
+  
+  async initializeForm() {
+   
+    // Si el usuario NO es admin, obtenemos su ID y lo asignamos al campo 'user'
+    if (!this.isAdmin) {
+      try {
+        const id = await this.authService.getCurrentUserId()
+        this.form.patchValue({ user: id }); // Asigna el ID al campo 'user'
+        console.log(this.form.getRawValue()) 
+        console.log(id)
+      } catch (error) {
+        this.snackBar.openSnackBar("Usuario no valido")   
+      }
+      
+    }
+  }
   users: User[] = []
   private snackBar = inject(SnackBarService);
   
   id: string | null = null 
 
-  ngOnInit() {
+  async ngOnInit() {
     this.id = "1"
     this.route.paramMap.subscribe(paramMap => {
       this.id = paramMap.get('id');
     });
     this.get()
-    this.getUsers()
+    this.isAdmin = await this.authService.isAdmin() 
+    this.initializeForm()
+    if (this.isAdmin) {
+      this.getUsers()
+    }
   }
 
   submit() {
     const { name, description, user, state } = this.form.value 
-    
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     if (this.id) {
       const data = {
         id: this.id,
@@ -67,7 +91,12 @@ export default class TaskFormComponent {
         state: state || "",
         user: user || ""
       } 
-      this.taskService.edit(data)
+      try {
+        this.taskService.edit(data) 
+        this.snackBar.openSnackBar("Tarea editada") 
+      } catch (error) {
+        this.snackBar.openSnackBar("Error al enviar")   
+      }
     } else {
       const data = {
         name: name || "",
@@ -75,10 +104,16 @@ export default class TaskFormComponent {
         state: state || "",
         user: user || ""
       }
+      console.log(data)
       try {
-        this.taskService.create(data)      
-        this.form.reset();
-        this.snackBar.openSnackBar("Tarea enviada")   
+        this.taskService.create(data)     
+        this.form.setValue({
+          name: "",
+          description: "",
+          user: "",
+          state: "0"
+        })
+        this.snackBar.openSnackBar("Tarea creada")   
       } catch (error) {
         this.snackBar.openSnackBar("Error al enviar")   
         
@@ -102,7 +137,6 @@ export default class TaskFormComponent {
   async getUsers() {
     try {
       this.users = await this.userService.get()
-      console.log(this.users)
     } catch (error) {
       this.snackBar.openSnackBar("Error al cargar usuarios")   
     }
