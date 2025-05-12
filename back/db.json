@@ -1,5 +1,20 @@
 {
-  "tasks": [],
+  "tasks": [
+    {
+      "name": "sd",
+      "description": "sd",
+      "state": "1",
+      "user": 3,
+      "id": 1
+    },
+    {
+      "name": "f",
+      "description": "fd",
+      "state": "1",
+      "user": 3,
+      "id": 2
+    }
+  ],
   "users": [
     {
       "email": "d@d.d",
@@ -7,6 +22,13 @@
       "name": "admin",
       "role": "admin",
       "id": 2
+    },
+    {
+      "email": "e@da.g",
+      "password": "$2a$10$kSvCrxZ8hojVMKed/rKdcuxA0Og6GURypl6WMk.ahFP2BnHVeyw5K",
+      "name": "ad",
+      "role": "user",
+      "id": 3
     }
   ]
 }
