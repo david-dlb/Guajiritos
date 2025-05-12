@@ -94,7 +94,8 @@ export class TaskComponent {
         case "2" :
           task.state = "Completada"
       }
-      const user = await this.userService.getById(task.id)
+      const user = await this.userService.getById(task.user)
+      console.log(user)
       if (user.length > 0) {
         task.user = user[0].name
       }
