@@ -50,9 +50,7 @@ export default class TaskFormComponent {
     if (!this.isAdmin) {
       try {
         const id = await this.authService.getCurrentUserId()
-        this.form.patchValue({ user: id }); // Asigna el ID al campo 'user'
-        console.log(this.form.getRawValue()) 
-        console.log(id)
+        this.form.patchValue({ user: id }); // Asigna el ID al campo 'user' 
       } catch (error) {
         this.snackBar.openSnackBar("Usuario no valido")   
       }
@@ -74,6 +72,10 @@ export default class TaskFormComponent {
     this.initializeForm()
     if (this.isAdmin) {
       this.getUsers()
+      if (!this.existUser()) {
+        console.log(1)
+        this.form.patchValue({ user: "" }); // Asigna el ID al campo 'user'
+      }
     }
   }
 
@@ -140,6 +142,15 @@ export default class TaskFormComponent {
     } catch (error) {
       this.snackBar.openSnackBar("Error al cargar usuarios")   
     }
+  }
+  existUser() {
+    let mk: boolean = false
+    this.users.forEach((e) => {
+      if (this.form.value.user && e.id == this.form.value.user) {
+        mk = true
+      }
+    })
+    return mk
   }
  
 }

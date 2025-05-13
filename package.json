@@ -6,6 +6,6 @@
     "front": "cd front && ng serve",
     "back": "cd back && npx json-server --watch db.json -m ./node_modules/json-server-auth",
     "build": "cd front && ng build",
-    "watch": "cd front ng build --watch --configuration development", 
+    "watch": "cd front ng build --watch --configuration development" 
   }
 }

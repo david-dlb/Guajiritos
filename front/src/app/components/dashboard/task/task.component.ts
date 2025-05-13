@@ -99,6 +99,9 @@ export class TaskComponent {
       if (user.length > 0) {
         task.user = user[0].name
       }
+      else {
+        task.user = ""
+      }
     })
     this.dataSource.data = tasks;
     this.hasElement = tasks.length > 0 ? true : false
