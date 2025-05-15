@@ -50,7 +50,6 @@ export class UserService {
   async edit(user: User | UserEdit) {
     const token = localStorage.getItem('token');
     if (!token) return;
-    console.log(user)
     try {
       const body = JSON.stringify(user)
       const data = await fetch(`${urlProtected}/users/${user.id}`, {
@@ -73,7 +72,7 @@ export class UserService {
     const token = localStorage.getItem('token');
     if (!token) return ;
     try {
-      const data = await fetch(`${urlProtected}/users/${id}`, {
+      const data = await fetch(`${urlProtected}/users/${id}?_dependent=tasks`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -93,6 +92,28 @@ export class UserService {
     if (!token) return [];
     try {
       const data = await fetch(`${urlProtected}/users`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      })
+      validResponse(data.status)
+      users = await data.json()
+      
+    } catch (error) {
+      throw new Error("Error en la peticion")
+      console.log('Error:', error);
+    }  
+    return users
+  }
+
+  async getAdmin(id: string): Promise<User[]> {
+    let users: User[] = [] 
+    const token = localStorage.getItem('token');
+    if (!token) return [];
+    try {
+      const data = await fetch(`${urlProtected}/users?id_ne=${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -180,6 +201,44 @@ export class UserService {
       console.log('Error:', error);
     }  
     return response
+  }
+
+  async getParamsAdmin(options: UserFilter, id: string): Promise<User[]> {
+    let users: User[] = [] 
+    let opt = ""
+    const token = localStorage.getItem('token');
+    if (!token) return [];
+    console.log(options)
+    if (options.query) {
+      if (options.type == "name") {
+        opt+= `name=${options.query}&`
+      }
+      if (options.type == "email") {
+        opt+= `email=${options.query}&`
+      } 
+    }
+    if (options.role) {
+      opt+= `role=${options.role}&`
+    } 
+    if (options.page) {
+      opt+= `_page=${options.page + 1}&_limit=10`
+    }
+    // opt = opt.length > 0 ? `?${opt}` : ""
+    try {
+      const data = await fetch(`${urlProtected}/users?id_ne=${id}&${opt}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      })
+      validResponse(data.status)
+      users = await data.json()
+    } catch (error) {
+      throw new Error("Error en la peticion")
+      console.log('Error:', error);
+    }  
+    return users
   }
 
   async getParams(options: UserFilter): Promise<User[]> {

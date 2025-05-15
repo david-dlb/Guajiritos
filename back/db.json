@@ -1,20 +1,5 @@
 {
-  "tasks": [
-    {
-      "id": 1,
-      "name": "sd",
-      "description": "sd",
-      "state": "1",
-      "user": 3
-    },
-    {
-      "name": "f",
-      "description": "fd",
-      "state": "1",
-      "user": 3,
-      "id": 2
-    }
-  ],
+  "tasks": [],
   "users": [
     {
       "email": "d@d.d",
@@ -22,6 +7,20 @@
       "name": "admin",
       "role": "admin",
       "id": 2
+    },
+    {
+      "email": "sss@fd.f",
+      "password": "$2a$10$zuDn88Jwz5fqBwBGLKvPGOTTxkGxdVjyD7e22XMbn1jFNRQuMXDYi",
+      "name": "as",
+      "role": "admin",
+      "id": 3
+    },
+    {
+      "email": "adad@fds.fd",
+      "password": "$2a$10$PpFDSisaIwDCnVDhhe9Rnuc2bLqEUVUoejhsHM5PVI6MEE6w0MLvW",
+      "name": "aaaaaaaaa",
+      "role": "user",
+      "id": 5
     }
   ]
 }

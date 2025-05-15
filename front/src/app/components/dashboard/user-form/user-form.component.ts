@@ -45,18 +45,25 @@ export class UserFormComponent {
   ngOnInit() {
     this.id = "1"
     this.route.paramMap.subscribe(paramMap => {
-      this.id = paramMap.get('id');
-    });
+      this.id = paramMap.get('id'); 
+    }); 
     this.get()
   }
 
   async submit() {
     const { name, password, email, role } = this.form.value 
+    if (this.id && !this.form.get('password')?.value) {
+      // Remueve las validaciones del password
+      this.form.get('password')?.clearValidators();
+      this.form.get('password')?.updateValueAndValidity();
+    }
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
-    if (this.id) {
+    if (this.id) { 
+      this.form.get('password')?.clearValidators();
+      this.form.get('password')?.updateValueAndValidity();
       
       if (password) {
         const data = {

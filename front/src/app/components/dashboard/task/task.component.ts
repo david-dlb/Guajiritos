@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../shared/services/auth/auth.service';
 import { Task, TaskFilter, TaskService } from '../../../shared/services/task/task.service';
 import { SnackBarService } from '../../../shared/snack-bar.service';
-import { UserService } from '../../../shared/services/user/user.service';
+import { UserFilter, UserService } from '../../../shared/services/user/user.service';
 import { MatCardModule } from '@angular/material/card';
  
 
@@ -94,13 +94,12 @@ export class TaskComponent {
         case "2" :
           task.state = "Completada"
       }
-      const user = await this.userService.getById(task.user)
-      console.log(user)
+      const user = await this.userService.getById(task.userId)
       if (user.length > 0) {
-        task.user = user[0].name
+        task.userId = user[0].name
       }
       else {
-        task.user = ""
+        task.userId = ""
       }
     })
     this.dataSource.data = tasks;
@@ -115,15 +114,31 @@ export class TaskComponent {
       state: state || "",
       page: this.page
     }
-    console.log(query)
     try {
       let data: Task[] 
       if (!this.isAdmin) {
         const id = await this.authService.getCurrentUserId()
         data = await this.taskService.getParamsByUser(options, id)
-        console.log(data)
       } else {
-        data = await this.taskService.getParams(options)
+        if (type == "user" && query != "") {
+          const optionsUser: UserFilter = {
+            query: query || "",
+            type: "name",
+            role: "",
+            page: 0
+          }
+          let q = ""
+          const users = await this.userService.getParams(optionsUser) 
+          if (users.length == 0) {
+            this.loadTasks([])
+            return
+          }
+          users.map(e => q += `${e.id},`)
+          q = q.substring(0, q.length - 1);
+          options.query = q
+
+        } 
+        data = await this.taskService.getParams(options) 
       }
       this.loadTasks(data) 
     } catch (error) {

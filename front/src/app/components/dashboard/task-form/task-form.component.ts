@@ -91,7 +91,7 @@ export default class TaskFormComponent {
         name: name || "",
         description: description || "",
         state: state || "",
-        user: user || ""
+        userId: user || ""
       } 
       try {
         this.taskService.edit(data) 
@@ -104,7 +104,7 @@ export default class TaskFormComponent {
         name: name || "",
         description: description || "",
         state: state || "",
-        user: user || ""
+        userId: user || ""
       }
       console.log(data)
       try {

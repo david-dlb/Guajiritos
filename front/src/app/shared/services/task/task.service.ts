@@ -7,7 +7,7 @@ export interface Task {
     name: string,
     description: string
     state: string
-    user: string
+    userId: string
 }
 export interface TaskFilter {
   query: string
@@ -173,7 +173,7 @@ export class TaskService {
         opt+= `description=${options.query}&`
       }
       if (options.type == "user") {
-        opt+= `user=${options.query}&`
+        opt+= `userId=${options.query}&`
       }
     }
     if (options.state) {
@@ -183,6 +183,7 @@ export class TaskService {
     //   opt+= `_page=${options.page + 1}&_limit=10`
     // }
     opt = opt.length > 0 ? `?${opt}` : "" 
+    console.log(opt)
     try {
       const data = await fetch(`${urlProtected}/tasks${opt}`, {
         method: 'GET',
@@ -211,9 +212,6 @@ export class TaskService {
       if (options.type == "description") {
         opt+= `description=${options.query}&`
       }
-      if (options.type == "user") {
-        opt+= `user=${options.query}&`
-      }
     }
     if (options.state) {
       opt+= `state=${options.state}&`
@@ -222,7 +220,7 @@ export class TaskService {
     //   opt+= `_page=${options.page + 1}&_limit=10`
     // }
     try {
-      const data = await fetch(`${urlProtected}/tasks?user=${id}&${opt}`, {
+      const data = await fetch(`${urlProtected}/tasks?userId=${id}&${opt}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -19,6 +19,8 @@ import { CommonModule } from '@angular/common';
 import { User, UserFilter, UserService } from '../../../shared/services/user/user.service';
 import { SnackBarService } from '../../../shared/snack-bar.service';
 import { MatCardModule } from '@angular/material/card';
+import { TaskService } from '../../../shared/services/task/task.service';
+import { AuthService } from '../../../shared/services/auth/auth.service';
  
 
 @Component({
@@ -50,7 +52,9 @@ displayedColumns: string[] = ['nombre', 'descripcion', 'estado', 'editar'];
   },
   ];
   @Input() users!: User[];
+  taskService = inject(TaskService)
   userService = inject(UserService)
+  authService = inject(AuthService)
   dataSource = new MatTableDataSource<User>();
   isAdmin = false
   totalItems = 0;
@@ -70,8 +74,7 @@ displayedColumns: string[] = ['nombre', 'descripcion', 'estado', 'editar'];
 
 
   async ngOnInit() { 
-    this.users = await this.userService.get()
-    this.loadUsers(this.users);
+    this.search() 
   }
 
   async loadUsers(users: User[]) { 
@@ -87,7 +90,8 @@ displayedColumns: string[] = ['nombre', 'descripcion', 'estado', 'editar'];
       page: this.page
     }
     try {
-      const data = await this.userService.getParams(options)
+      const id = await this.authService.getCurrentUserId()
+      const data = await this.userService.getParamsAdmin(options, id)
       this.loadUsers(data) 
     } catch (error) {
       this.snackBar.openSnackBar("Error al enviar")   
@@ -96,11 +100,10 @@ displayedColumns: string[] = ['nombre', 'descripcion', 'estado', 'editar'];
 
   async delete(id: string) { 
     try {
-      
-    const data = await this.userService.delete(id)
-    this.search()
+      await this.userService.delete(id)
+      this.snackBar.openSnackBar("Usuario borrado")   
+      this.search()
     } catch (error) {
-      
       this.snackBar.openSnackBar("Error al enviar")   
     }
   }
